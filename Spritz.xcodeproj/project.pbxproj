@@ -16,6 +16,7 @@
 		13C483C0293F735400099B81 /* PixeloidMono.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 13C483BD293F735400099B81 /* PixeloidMono.ttf */; };
 		13C483C1293F735400099B81 /* PixeloidSans.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 13C483BE293F735400099B81 /* PixeloidSans.ttf */; };
 		13C483C2293F735400099B81 /* PixeloidSansBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 13C483BF293F735400099B81 /* PixeloidSansBold.ttf */; };
+		13C483C72940862700099B81 /* Sounds in Resources */ = {isa = PBXBuildFile; fileRef = 13C483C62940862700099B81 /* Sounds */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +31,7 @@
 		13C483BE293F735400099B81 /* PixeloidSans.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = PixeloidSans.ttf; sourceTree = "<group>"; };
 		13C483BF293F735400099B81 /* PixeloidSansBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = PixeloidSansBold.ttf; sourceTree = "<group>"; };
 		13C483C5293F73FE00099B81 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		13C483C62940862700099B81 /* Sounds */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Sounds; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -102,6 +104,7 @@
 		13C483C4293F737C00099B81 /* Assets */ = {
 			isa = PBXGroup;
 			children = (
+				13C483C62940862700099B81 /* Sounds */,
 				13C483AD293F441300099B81 /* Assets.xcassets */,
 				13C483C3293F735E00099B81 /* Fonts */,
 			);
@@ -172,6 +175,7 @@
 				13C483C1293F735400099B81 /* PixeloidSans.ttf in Resources */,
 				13C483B1293F441300099B81 /* Preview Assets.xcassets in Resources */,
 				13C483AE293F441300099B81 /* Assets.xcassets in Resources */,
+				13C483C72940862700099B81 /* Sounds in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
