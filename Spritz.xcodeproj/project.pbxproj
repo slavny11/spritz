@@ -7,8 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		13C483AA293F441300099B81 /* SpritzApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13C483A9293F441300099B81 /* SpritzApp.swift */; };
-		13C483AC293F441300099B81 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13C483AB293F441300099B81 /* ContentView.swift */; };
 		13C483AE293F441300099B81 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13C483AD293F441300099B81 /* Assets.xcassets */; };
 		13C483B1293F441300099B81 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13C483B0293F441300099B81 /* Preview Assets.xcassets */; };
 		13C483BA293F65CC00099B81 /* SpritzViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13C483B9293F65CC00099B81 /* SpritzViewController.swift */; };
@@ -18,12 +16,11 @@
 		13C483C2293F735400099B81 /* PixeloidSansBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 13C483BF293F735400099B81 /* PixeloidSansBold.ttf */; };
 		13C483C72940862700099B81 /* Sounds in Resources */ = {isa = PBXBuildFile; fileRef = 13C483C62940862700099B81 /* Sounds */; };
 		13C483C9294090E300099B81 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13C483C8294090E300099B81 /* GameScene.swift */; };
+		13C483EE294097EE00099B81 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13C483ED294097EE00099B81 /* AppDelegate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		13C483A6293F441300099B81 /* Spritz.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Spritz.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		13C483A9293F441300099B81 /* SpritzApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpritzApp.swift; sourceTree = "<group>"; };
-		13C483AB293F441300099B81 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		13C483AD293F441300099B81 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		13C483B0293F441300099B81 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		13C483B9293F65CC00099B81 /* SpritzViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpritzViewController.swift; sourceTree = "<group>"; };
@@ -34,6 +31,7 @@
 		13C483C5293F73FE00099B81 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		13C483C62940862700099B81 /* Sounds */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Sounds; sourceTree = "<group>"; };
 		13C483C8294090E300099B81 /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
+		13C483ED294097EE00099B81 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -67,9 +65,10 @@
 			isa = PBXGroup;
 			children = (
 				13C483C5293F73FE00099B81 /* Info.plist */,
+				13C483ED294097EE00099B81 /* AppDelegate.swift */,
+				13C483B9293F65CC00099B81 /* SpritzViewController.swift */,
+				13C483C8294090E300099B81 /* GameScene.swift */,
 				13C483B8293F652500099B81 /* StoryBoard */,
-				13C483A9293F441300099B81 /* SpritzApp.swift */,
-				13C483AB293F441300099B81 /* ContentView.swift */,
 				13C483C4293F737C00099B81 /* Assets */,
 				13C483AF293F441300099B81 /* Preview Content */,
 			);
@@ -87,8 +86,6 @@
 		13C483B8293F652500099B81 /* StoryBoard */ = {
 			isa = PBXGroup;
 			children = (
-				13C483B9293F65CC00099B81 /* SpritzViewController.swift */,
-				13C483C8294090E300099B81 /* GameScene.swift */,
 				13C483BB293F672800099B81 /* Main.storyboard */,
 			);
 			path = StoryBoard;
@@ -189,10 +186,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				13C483AC293F441300099B81 /* ContentView.swift in Sources */,
+				13C483EE294097EE00099B81 /* AppDelegate.swift in Sources */,
 				13C483BA293F65CC00099B81 /* SpritzViewController.swift in Sources */,
 				13C483C9294090E300099B81 /* GameScene.swift in Sources */,
-				13C483AA293F441300099B81 /* SpritzApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
