@@ -68,6 +68,7 @@
 				13C483B8293F652500099B81 /* StoryBoard */,
 				13C483A9293F441300099B81 /* SpritzApp.swift */,
 				13C483AB293F441300099B81 /* ContentView.swift */,
+				13C483B9293F65CC00099B81 /* SpritzViewController.swift */,
 				13C483C4293F737C00099B81 /* Assets */,
 				13C483AF293F441300099B81 /* Preview Content */,
 			);
@@ -85,7 +86,6 @@
 		13C483B8293F652500099B81 /* StoryBoard */ = {
 			isa = PBXGroup;
 			children = (
-				13C483B9293F65CC00099B81 /* SpritzViewController.swift */,
 				13C483BB293F672800099B81 /* Main.storyboard */,
 			);
 			path = StoryBoard;

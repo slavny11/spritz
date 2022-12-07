@@ -11,8 +11,6 @@ import SwiftUI
 
 class SpritzViewController: UIViewController {
     
-    
-    
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask { .portrait }
     
     override func viewDidLoad() {
