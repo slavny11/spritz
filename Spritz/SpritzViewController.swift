@@ -8,6 +8,7 @@
 import Foundation
 import UIKit
 import SwiftUI
+import SpriteKit
 
 class SpritzViewController: UIViewController {
     
@@ -15,7 +16,27 @@ class SpritzViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        if let view = self.view as! SKView? {
+            let scene = GameScene(size: view.bounds.size)
+                    scene.scaleMode = .resizeFill
+                    
+                    view.presentScene(scene)
+                    
+                    view.ignoresSiblingOrder = true
+                    
+                    view.showsFPS = true
+                    view.showsNodeCount = true
+                }
     }
+    
+    override var shouldAutorotate: Bool {
+            return false
+        }
+    
+    override var prefersStatusBarHidden: Bool {
+            return true
+        }
     
     @IBAction func printBTN(_ sender: Any) {
         print("Wow, this is storyboard")
