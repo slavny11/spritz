@@ -18,7 +18,7 @@ class SpritzViewController: UIViewController {
         super.viewDidLoad()
         
         if let view = self.view as! SKView? {
-            let scene = GameScene()
+            let scene = GameScene(size: view.bounds.size)
             scene.scaleMode = .aspectFill
             
             view.presentScene(scene)
@@ -31,11 +31,11 @@ class SpritzViewController: UIViewController {
     }
     
     override var shouldAutorotate: Bool {
-        return false
+        return true
     }
     
     override var prefersStatusBarHidden: Bool {
-        return false
+        return true
     }
     
 }

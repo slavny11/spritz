@@ -10,8 +10,15 @@ import SpriteKit
 
 class GameScene: SKScene {
     
+    let ball = SKSpriteNode(imageNamed: "ball")
+    
     override func didMove(to view: SKView) {
-        //
+        backgroundColor = SKColor.green
+        
+        ball.position = CGPoint(x: size.width * 0.1, y: size.height * 0.5)
+        
+        addChild(ball)
+        
     }
     
 }

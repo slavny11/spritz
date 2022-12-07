@@ -28,7 +28,7 @@
 		13C483BD293F735400099B81 /* PixeloidMono.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = PixeloidMono.ttf; sourceTree = "<group>"; };
 		13C483BE293F735400099B81 /* PixeloidSans.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = PixeloidSans.ttf; sourceTree = "<group>"; };
 		13C483BF293F735400099B81 /* PixeloidSansBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = PixeloidSansBold.ttf; sourceTree = "<group>"; };
-		13C483C5293F73FE00099B81 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		13C483C5293F73FE00099B81 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		13C483C62940862700099B81 /* Sounds */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Sounds; sourceTree = "<group>"; };
 		13C483C8294090E300099B81 /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
 		13C483ED294097EE00099B81 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -104,8 +104,8 @@
 		13C483C4293F737C00099B81 /* Assets */ = {
 			isa = PBXGroup;
 			children = (
-				13C483C62940862700099B81 /* Sounds */,
 				13C483AD293F441300099B81 /* Assets.xcassets */,
+				13C483C62940862700099B81 /* Sounds */,
 				13C483C3293F735E00099B81 /* Fonts */,
 			);
 			path = Assets;
