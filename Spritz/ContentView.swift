@@ -9,24 +9,24 @@ import SwiftUI
 import UIKit
 import SpriteKit
 
-
-
 struct ContentView: View {
     
+//    initialize a new var with the Scene
     var scene: SKScene {
         let scene = GameScene()
-        scene.size = UIScreen.main.bounds.size
-        scene.scaleMode = .fill
+        scene.size = UIScreen.main.bounds.size // make it fullscreen
+        scene.scaleMode = .fill // make it fullscreen
         return scene
     }
     
     var body: some View {
         
+//        my App View
         SpriteView(scene: self.scene)
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .frame(maxWidth: .infinity, maxHeight: .infinity) //to make it full screen, not the best way, because my pictures optimised only for IPhone 13
             .ignoresSafeArea()
         
-//        storyboardView().edgesIgnoringSafeArea(.all)
+//        storyboardView().edgesIgnoringSafeArea(.all) //        previous attempt with storyboards (decided to skip because to old)
     }
 }
 

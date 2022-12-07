@@ -12,33 +12,33 @@ import SpriteKit
 
 class SpritzViewController: UIViewController {
     
-    override var supportedInterfaceOrientations: UIInterfaceOrientationMask { .portrait }
+    override var supportedInterfaceOrientations: UIInterfaceOrientationMask { .portrait } // UI var to work only in portrait mode
     
     override func viewDidLoad() {
-        super.viewDidLoad()
+        super.viewDidLoad() // her znaet zachem. tak bylo
         
         if let view = self.view as! SKView? {
-            let scene = GameScene(size: view.bounds.size)
+            let scene = GameScene(size: view.bounds.size) // fullscreen size
                     scene.scaleMode = .resizeFill
                     
                     view.presentScene(scene)
                     
                     view.ignoresSiblingOrder = true
                     
-                    view.showsFPS = true
-                    view.showsNodeCount = true
+                    view.showsFPS = true //huinya
+                    view.showsNodeCount = true // hyinya
                 }
     }
     
+    
+    // not possible to totate
     override var shouldAutorotate: Bool {
             return false
         }
     
+    //hide Status bar
     override var prefersStatusBarHidden: Bool {
             return true
         }
     
-    @IBAction func printBTN(_ sender: Any) {
-        print("Wow, this is storyboard")
-    }
 }
