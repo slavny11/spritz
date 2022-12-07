@@ -17,6 +17,7 @@
 		13C483C1293F735400099B81 /* PixeloidSans.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 13C483BE293F735400099B81 /* PixeloidSans.ttf */; };
 		13C483C2293F735400099B81 /* PixeloidSansBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 13C483BF293F735400099B81 /* PixeloidSansBold.ttf */; };
 		13C483C72940862700099B81 /* Sounds in Resources */ = {isa = PBXBuildFile; fileRef = 13C483C62940862700099B81 /* Sounds */; };
+		13C483C9294090E300099B81 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13C483C8294090E300099B81 /* GameScene.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +33,7 @@
 		13C483BF293F735400099B81 /* PixeloidSansBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = PixeloidSansBold.ttf; sourceTree = "<group>"; };
 		13C483C5293F73FE00099B81 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		13C483C62940862700099B81 /* Sounds */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Sounds; sourceTree = "<group>"; };
+		13C483C8294090E300099B81 /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -86,6 +88,7 @@
 			isa = PBXGroup;
 			children = (
 				13C483B9293F65CC00099B81 /* SpritzViewController.swift */,
+				13C483C8294090E300099B81 /* GameScene.swift */,
 				13C483BB293F672800099B81 /* Main.storyboard */,
 			);
 			path = StoryBoard;
@@ -188,6 +191,7 @@
 			files = (
 				13C483AC293F441300099B81 /* ContentView.swift in Sources */,
 				13C483BA293F65CC00099B81 /* SpritzViewController.swift in Sources */,
+				13C483C9294090E300099B81 /* GameScene.swift in Sources */,
 				13C483AA293F441300099B81 /* SpritzApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

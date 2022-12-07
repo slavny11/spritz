@@ -10,7 +10,7 @@ import UIKit
 
 struct ContentView: View {
     var body: some View {
-        storyboardView().edgesIgnoringSafeArea(.all)
+//        storyboardView().edgesIgnoringSafeArea(.all)
     }
 }
 
@@ -20,15 +20,15 @@ struct ContentView_Previews: PreviewProvider {
     }
 }
 
-struct storyboardView: UIViewControllerRepresentable {
-    
-    func makeUIViewController(context: Context) -> UIViewController {
-        let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
-        let controller = storyboard.instantiateViewController(identifier: "Home")
-        return controller
-    }
-    
-    func updateUIViewController(_ uiViewController: UIViewController, context: Context) {
-        
-    }
-}
+//struct storyboardView: UIViewControllerRepresentable {
+//
+//    func makeUIViewController(context: Context) -> UIViewController {
+//        let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
+//        let controller = storyboard.instantiateViewController(identifier: "Home")
+//        return controller
+//    }
+//
+//    func updateUIViewController(_ uiViewController: UIViewController, context: Context) {
+//
+//    }
+//}
