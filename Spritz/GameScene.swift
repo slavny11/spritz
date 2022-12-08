@@ -42,56 +42,69 @@ class GameScene: SKScene {
         
     }
     
+    
     //function for touching
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        
-        let touch = touches.first!
-        let location = CGPoint(x: arrow.position.x, y: size.height * 0.12) // direction in wich ball shot
-        
-        moveBall(location: location) // fuction for a ball moving
-        rotateBall() // func for a ball rotation
         moveArrow() // func for an arrom moving
-        
     }
+    
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        
+        let location = CGPoint(x: arrow.position.x, y: frame.size.height * 0.2)
+        
+        moveBall(location: location)
+        stopArrow()
+    }
+    
     
     func moveBall(location: CGPoint) {
         
         let ballSpeed = frame.size.height // here should be an argument to make it faster than stronger kick
         let moveDistance = frame.size.height // here should be Y coordinate after which ball will stop
-        
         let moveDuration = moveDistance / ballSpeed // time of a ball movement for the next argument
         
         let moveAction = SKAction.move(to: location, duration:(TimeInterval(moveDuration))) // ball moving behaviour, rotation infinite, i need to stop after ball reach the last point
+        let rotateActionRight = SKAction.rotate(byAngle: 360, duration:(TimeInterval(moveDuration))) // func which rotate the ball
+        let rotateActionLeft = SKAction.rotate(byAngle: -360, duration:(TimeInterval(moveDuration)))
+        
+        let scaleBall = SKAction.scale(by: 0.9, duration: (TimeInterval(moveDuration))) // to make it smaller after shot
+        
         ball.run(moveAction) // I need to place ball back on a penalty point after all
+        ball.run(scaleBall) // I need later to make it a dot if missed
         
-    }
-    
-    func rotateBall() {
+        // to rotate ball in the direction of the shot
+        if location.x < 0 {
+            ball.run(rotateActionLeft)
+        } else {
+            ball.run(rotateActionRight)
+        }
         
-        let rotateAction = SKAction.repeatForever(
-            SKAction.rotate(byAngle: 360, duration: 1))
-        ball.run(rotateAction) // need to be stopped after reach final point
     }
     
     func moveArrow() {
         
-        var multiplierForDirection: CGFloat
         let arrowSpeed = frame.size.width // here should be an argument to make it faster with each new level
+
+        let moveDuration = frame.size.width / arrowSpeed //duration
         
+        let moveRight = SKAction.moveTo(x: 0.45 * frame.size.width, duration: moveDuration) // move arrow to the rigth
+        let moveLeft = SKAction.moveTo(x: -0.45 * frame.size.width, duration: moveDuration) // to the left
+        let moveBackAndForth = SKAction.sequence([moveRight, moveLeft]) // making sequence
         
-        if arrow.position.x < 0 {
-            multiplierForDirection = 1
-        } else {
-            multiplierForDirection = -1
-        }
+        let moveAction = SKAction.repeatForever(moveBackAndForth) // make it permanent
+        arrow.run(moveAction, withKey: "arrow-moving")
         
-        let moveDistance = frame.size.width - arrow.size.width // distance for duration
-        let moveDuration = moveDistance / arrowSpeed //duration
-        
-        let moveAction = SKAction.repeatForever(
-            SKAction.moveTo(x: multiplierForDirection * 0.45 * frame.size.width, duration: moveDuration)) // I need to make it goes back an forth without tapping
-        arrow.run(moveAction)
-        
+    }
+    
+    func stopArrow() {
+        arrow.removeAction(forKey: "arrow-moving")
+
+    }
+    
+    func reset() {
+        arrow.position = CGPoint(x: -0.5 * frame.size.width + arrow.size.width, y: frame.size.height * -0.04)
+        ball.position = CGPoint(x: 0, y:  frame.size.height * -0.2)
+        goalkeeper.position = CGPoint(x: 0, y:  frame.size.height * 0.15)
     }
 
 }
