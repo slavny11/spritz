@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		131C7E852944A66C00CE8383 /* GkImagesJumpRight.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 131C7E842944A66C00CE8383 /* GkImagesJumpRight.atlas */; };
+		131C7E872944A67800CE8383 /* GkImagesJumpLeft.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 131C7E862944A67800CE8383 /* GkImagesJumpLeft.atlas */; };
+		131C7E892944A68200CE8383 /* GkImagesJumpCenter.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 131C7E882944A68200CE8383 /* GkImagesJumpCenter.atlas */; };
 		13C483AA293F441300099B81 /* SpritzApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13C483A9293F441300099B81 /* SpritzApp.swift */; };
 		13C483AC293F441300099B81 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13C483AB293F441300099B81 /* ContentView.swift */; };
 		13C483AE293F441300099B81 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13C483AD293F441300099B81 /* Assets.xcassets */; };
@@ -18,9 +21,13 @@
 		13C483C2293F735400099B81 /* PixeloidSansBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 13C483BF293F735400099B81 /* PixeloidSansBold.ttf */; };
 		13C483C72940862700099B81 /* Sounds in Resources */ = {isa = PBXBuildFile; fileRef = 13C483C62940862700099B81 /* Sounds */; };
 		13C483F22940A26A00099B81 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13C483F12940A26A00099B81 /* GameScene.swift */; };
+		13C483F429427CA900099B81 /* GkImages.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 13C483F329427CA900099B81 /* GkImages.atlas */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		131C7E842944A66C00CE8383 /* GkImagesJumpRight.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = GkImagesJumpRight.atlas; sourceTree = "<group>"; };
+		131C7E862944A67800CE8383 /* GkImagesJumpLeft.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = GkImagesJumpLeft.atlas; sourceTree = "<group>"; };
+		131C7E882944A68200CE8383 /* GkImagesJumpCenter.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = GkImagesJumpCenter.atlas; sourceTree = "<group>"; };
 		13C483A6293F441300099B81 /* Spritz.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Spritz.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13C483A9293F441300099B81 /* SpritzApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpritzApp.swift; sourceTree = "<group>"; };
 		13C483AB293F441300099B81 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -34,6 +41,7 @@
 		13C483C5293F73FE00099B81 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		13C483C62940862700099B81 /* Sounds */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Sounds; sourceTree = "<group>"; };
 		13C483F12940A26A00099B81 /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
+		13C483F329427CA900099B81 /* GkImages.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = GkImages.atlas; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -67,6 +75,10 @@
 			isa = PBXGroup;
 			children = (
 				13C483C5293F73FE00099B81 /* Info.plist */,
+				131C7E882944A68200CE8383 /* GkImagesJumpCenter.atlas */,
+				131C7E862944A67800CE8383 /* GkImagesJumpLeft.atlas */,
+				131C7E842944A66C00CE8383 /* GkImagesJumpRight.atlas */,
+				13C483F329427CA900099B81 /* GkImages.atlas */,
 				13C483A9293F441300099B81 /* SpritzApp.swift */,
 				13C483AB293F441300099B81 /* ContentView.swift */,
 				13C483B9293F65CC00099B81 /* SpritzViewController.swift */,
@@ -173,11 +185,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				13C483C0293F735400099B81 /* PixeloidMono.ttf in Resources */,
+				13C483F429427CA900099B81 /* GkImages.atlas in Resources */,
 				13C483C2293F735400099B81 /* PixeloidSansBold.ttf in Resources */,
 				13C483BC293F672800099B81 /* Main.storyboard in Resources */,
 				13C483C1293F735400099B81 /* PixeloidSans.ttf in Resources */,
 				13C483B1293F441300099B81 /* Preview Assets.xcassets in Resources */,
+				131C7E892944A68200CE8383 /* GkImagesJumpCenter.atlas in Resources */,
+				131C7E872944A67800CE8383 /* GkImagesJumpLeft.atlas in Resources */,
 				13C483AE293F441300099B81 /* Assets.xcassets in Resources */,
+				131C7E852944A66C00CE8383 /* GkImagesJumpRight.atlas in Resources */,
 				13C483C72940862700099B81 /* Sounds in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -328,8 +344,8 @@
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -340,6 +356,7 @@
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				TEXTURE_ATLAS_MAXIMUM_SIZE = 4096x4096;
 			};
 			name = Debug;
 		};
@@ -358,8 +375,8 @@
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -370,6 +387,7 @@
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				TEXTURE_ATLAS_MAXIMUM_SIZE = 4096x4096;
 			};
 			name = Release;
 		};

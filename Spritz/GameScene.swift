@@ -11,8 +11,13 @@ import SpriteKit
 class GameScene: SKScene {
     
     let ball = SKSpriteNode(imageNamed: "ball")
+    
     let stadioBackground = SKSpriteNode(imageNamed: "bg")
-    let goalkeeper = SKSpriteNode(imageNamed: "gk")
+    
+    var goalkeeper = SKSpriteNode()
+    
+    var gkMoves: [SKTexture] = []
+    
     let arrow = SKSpriteNode(imageNamed: "arrow")
     
 
@@ -24,9 +29,6 @@ class GameScene: SKScene {
         stadioBackground.position = CGPoint(x: frame.size.width * 0.5, y: frame.size.height * 0.5)
         stadioBackground.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         
-        //settings for GK pic placement -- in the middle of gates -- relationship to Stadio
-        goalkeeper.position = CGPoint(x: 0, y:  frame.size.height * 0.15)
-        
         //settings for ball pic placement -- on the penalty point -- relationship to Stadio
         ball.position = CGPoint(x: 0, y:  frame.size.height * -0.2)
         
@@ -37,11 +39,41 @@ class GameScene: SKScene {
         //creating objects on a screen
         addChild(stadioBackground)
         stadioBackground.addChild(ball)
-        stadioBackground.addChild(goalkeeper)
         stadioBackground.addChild(arrow)
+        
+        buildGk()
+        
+        animateGk()
         
     }
     
+    func animateGk() {
+        goalkeeper.run(SKAction.repeatForever(
+            SKAction.animate(with: gkMoves,
+                             timePerFrame: 0.3,
+                            resize: false,
+                            restore: true)),
+        withKey: "gkMovesOnPlace")
+    }
+    
+    func buildGk() {
+        
+        let gkAnimatedAtlas = SKTextureAtlas(named: "GkImages")
+        var gkFrames: [SKTexture] = []
+        
+        gkFrames.append(gkAnimatedAtlas.textureNamed("gk1"))
+        gkFrames.append(gkAnimatedAtlas.textureNamed("gk2"))
+        
+        gkMoves = gkFrames
+        
+        goalkeeper = SKSpriteNode(texture: gkFrames[0])
+        
+        //settings for GK pic placement -- in the middle of gates -- relationship to Stadio
+        goalkeeper.position = CGPoint(x: 0, y:  frame.size.height * 0.15)
+        goalkeeper.size = CGSize(width: 80, height: 100)
+        
+        stadioBackground.addChild(goalkeeper)
+    }
     
     //function for touching
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
