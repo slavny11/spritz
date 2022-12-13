@@ -8,7 +8,7 @@
 import Foundation
 import SpriteKit
 
-class GameScene: SKScene {
+class GameScene: SKScene, SKPhysicsContactDelegate {
     
     let ball = SKSpriteNode(imageNamed: "ball")
     
@@ -20,15 +20,23 @@ class GameScene: SKScene {
     
     let arrow = SKSpriteNode(imageNamed: "arrow")
     
-    // create an enum with different GK states depending on case
-    enum GkState: Int, CaseIterable {
-        case ready = 0 // before shot and the next cases random after shot
-        case center = 1
-        case left = 2
-        case right = 3
+    var scoreLabel: SKLabelNode!
+    
+    var scorePlayer: Int = 0 {
+        didSet {
+            scoreLabel.text = "Score: \(scorePlayer)"
+        }
     }
     
-    var gkAnimation = GkState(rawValue: 1) // a variable which defines basic GK state
+    // create an enum with different GK states depending on case
+//    enum GkState: Int, CaseIterable {
+//        case ready = 0 // before shot and the next cases random after shot
+//        case center = 1
+//        case left = 2
+//        case right = 3
+//    }
+    
+//    var gkAnimation = GkState(rawValue: 1) // a variable which defines basic GK state
     
     override func didMove(to view: SKView) {
         
@@ -40,6 +48,20 @@ class GameScene: SKScene {
         
         //settings for ball pic placement -- on the penalty point -- relationship to Stadio
         ball.position = CGPoint(x: 0, y:  frame.size.height * -0.2)
+        ball.physicsBody = SKPhysicsBody(circleOfRadius: ball.size.width / 2)
+        ball.physicsBody?.isDynamic = true
+        ball.name = "ball"
+        ball.physicsBody!.contactTestBitMask = ball.physicsBody!.collisionBitMask
+        ball.physicsBody?.usesPreciseCollisionDetection = true
+        
+        scoreLabel = SKLabelNode(fontNamed: "PixeloidSans")
+        scoreLabel.text = "Score: 0"
+        scoreLabel.fontSize = 30
+        scoreLabel.zPosition = 1
+        scoreLabel.fontColor = .black
+        scoreLabel.horizontalAlignmentMode = .center
+//        scoreLabel.verticalAlignmentMode = .center
+        scoreLabel.position.y = frame.size.height * 0.35
         
         //settings for arrow pic placement -- on a line -- relationship to Stadio
         arrow.anchorPoint = CGPoint(x: 0.5, y: 1)
@@ -49,62 +71,92 @@ class GameScene: SKScene {
         addChild(stadioBackground)
         stadioBackground.addChild(ball)
         stadioBackground.addChild(arrow)
+        stadioBackground.addChild(scoreLabel)
+        buildGkReady()
         
         //need to understand which case for GK animation use
-        switch GkState(rawValue: gkAnimation?.rawValue ?? 0) {
-            
-        case .ready:
-            buildGkReady()
-        case .right:
-            buildGkRight()
-        case .center:
-            buildGkCenter()
-        case .left:
-            buildGkLeft()
-        case .none:
-            buildGkReady()
-        }
+//        switch GkState(rawValue: gkAnimation?.rawValue ?? 0) {
+//
+//        case .ready:
+//            buildGkReady()
+//        case .right:
+//            buildGkRight()
+//        case .center:
+//            buildGkCenter()
+//        case .left:
+//            buildGkLeft()
+//        case .none:
+//            buildGkReady()
+//        }
         
+        physicsWorld.contactDelegate = self
+        physicsWorld.gravity = .zero
     }
     
-    // func with help to choose an animation for different GK states
-    func animateGk(status: GkState) {
+    func CollisionBetween(ball: SKNode, goalkeeper: SKNode) {
+        ball.removeFromParent()
+        goalkeeper.removeFromParent()
+        stadioBackground.addChild(ball)
+        print("Collision")
+    }
+    
+    func didBegin(_ contact: SKPhysicsContact) {
+        guard let nodeA = contact.bodyA.node else { return }
+        guard let nodeB = contact.bodyB.node else { return }
         
-        switch status {
-            
-        case .ready:
-            goalkeeper.run(SKAction.repeatForever(
-                SKAction.animate(with: gkMoves,
-                                 timePerFrame: 0.3,
-                                 resize: false,
-                                 restore: true)),
-                           withKey: "gkReady")
-            
-        case .center:
-            goalkeeper.run(SKAction.repeatForever(
-                SKAction.animate(with: gkMoves,
-                                 timePerFrame: 0.3,
-                                 resize: false,
-                                 restore: true)),
-                           withKey: "gkCenter")
-            
-        case .left:
-            goalkeeper.run(SKAction.repeatForever(
-                SKAction.animate(with: gkMoves,
-                                 timePerFrame: 0.3,
-                                 resize: false,
-                                 restore: true)),
-                           withKey: "gkLeft")
-            
-        case .right:
-            goalkeeper.run(SKAction.repeatForever(
-                SKAction.animate(with: gkMoves,
-                                 timePerFrame: 0.3,
-                                 resize: false,
-                                 restore: true)),
-                           withKey: "gkRight")
+        if nodeA.name == "ball" && nodeB.name == "goalkeeper"{
+            CollisionBetween(ball: contact.bodyA.node!, goalkeeper: contact.bodyB.node!)
+        } else if nodeA.name == "goalkeeper" && nodeB.name == "ball"{
+            CollisionBetween(ball: contact.bodyB.node!, goalkeeper: contact.bodyA.node!)
         }
     }
+    
+    func animateGk() {
+        goalkeeper.run(SKAction.repeatForever(
+            SKAction.animate(with: gkMoves,
+                             timePerFrame: 0.3,
+                             resize: false,
+                             restore: true)),
+                       withKey: "gkReady")
+    }
+    // func with help to choose an animation for different GK states
+//    func animateGk(status: GkState) {
+//
+//        switch status {
+//
+//        case .ready:
+//            goalkeeper.run(SKAction.repeatForever(
+//                SKAction.animate(with: gkMoves,
+//                                 timePerFrame: 0.3,
+//                                 resize: false,
+//                                 restore: true)),
+//                           withKey: "gkReady")
+//
+//        case .center:
+//            goalkeeper.run(SKAction.repeatForever(
+//                SKAction.animate(with: gkMoves,
+//                                 timePerFrame: 0.3,
+//                                 resize: false,
+//                                 restore: true)),
+//                           withKey: "gkCenter")
+//
+//        case .left:
+//            goalkeeper.run(SKAction.repeatForever(
+//                SKAction.animate(with: gkMoves,
+//                                 timePerFrame: 0.3,
+//                                 resize: false,
+//                                 restore: true)),
+//                           withKey: "gkLeft")
+//
+//        case .right:
+//            goalkeeper.run(SKAction.repeatForever(
+//                SKAction.animate(with: gkMoves,
+//                                 timePerFrame: 0.3,
+//                                 resize: false,
+//                                 restore: true)),
+//                           withKey: "gkRight")
+//        }
+//    }
     
     // for building a GK in different states
     func buildGkReady() {
@@ -122,75 +174,82 @@ class GameScene: SKScene {
         goalkeeper.position = CGPoint(x: 0, y:  frame.size.height * 0.08)
         goalkeeper.anchorPoint = CGPoint(x: 0.5, y: 0)
         goalkeeper.size = CGSize(width: 100, height: 120)
+        goalkeeper.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 50, height: 5))
+        goalkeeper.physicsBody?.isDynamic = false
+        goalkeeper.name = "goalkeeper"
         
         stadioBackground.addChild(goalkeeper)
     }
     
     
-    func buildGkRight() {
-        let gkAnimatedAtlas = SKTextureAtlas(named: "GkImagesJumpRight")
-        var gkFrames: [SKTexture] = []
-        
-        gkFrames.append(gkAnimatedAtlas.textureNamed("GK_right-1"))
-        gkFrames.append(gkAnimatedAtlas.textureNamed("GK_right-2"))
-        gkFrames.append(gkAnimatedAtlas.textureNamed("GK_right-3"))
-        
-        gkMoves = gkFrames
-        
-        goalkeeper = SKSpriteNode(texture: gkFrames[0])
-        
-        //settings for GK pic placement -- in the middle of gates -- relationship to Stadio
-        goalkeeper.position = CGPoint(x: 0, y:  frame.size.height * 0.15)
-        goalkeeper.size = CGSize(width: 100, height: 150)
-        
-        stadioBackground.addChild(goalkeeper)
+//    func buildGkRight() {
+//        let gkAnimatedAtlas = SKTextureAtlas(named: "GkImagesJumpRight")
+//        var gkFrames: [SKTexture] = []
+//
+//        gkFrames.append(gkAnimatedAtlas.textureNamed("GK_right-1"))
+//        gkFrames.append(gkAnimatedAtlas.textureNamed("GK_right-2"))
+//        gkFrames.append(gkAnimatedAtlas.textureNamed("GK_right-3"))
+//
+//        gkMoves = gkFrames
+//
+//        goalkeeper = SKSpriteNode(texture: gkFrames[0])
+//
+//        //settings for GK pic placement -- in the middle of gates -- relationship to Stadio
+//        goalkeeper.position = CGPoint(x: 0, y:  frame.size.height * 0.15)
+//        goalkeeper.size = CGSize(width: 100, height: 150)
+//
+//        stadioBackground.addChild(goalkeeper)
+//    }
+//    func buildGkLeft() {
+//        let gkAnimatedAtlas = SKTextureAtlas(named: "GkImagesJumpLeft")
+//        var gkFrames: [SKTexture] = []
+//
+//        gkFrames.append(gkAnimatedAtlas.textureNamed("GK_left-1"))
+//        gkFrames.append(gkAnimatedAtlas.textureNamed("GK_left-2"))
+//        gkFrames.append(gkAnimatedAtlas.textureNamed("GK_left-3"))
+//
+//        gkMoves = gkFrames
+//
+//        goalkeeper = SKSpriteNode(texture: gkFrames[0])
+//
+//        //settings for GK pic placement -- in the middle of gates -- relationship to Stadio
+//        goalkeeper.position = CGPoint(x: 0, y:  frame.size.height * 0.15)
+//        goalkeeper.size = CGSize(width: 80, height: 100)
+//
+//        stadioBackground.addChild(goalkeeper)
+//    }
+//    func buildGkCenter() {
+//        let gkAnimatedAtlas = SKTextureAtlas(named: "GkImagesJumpCenter")
+//        var gkFrames: [SKTexture] = []
+//
+//        gkFrames.append(gkAnimatedAtlas.textureNamed("GK_center"))
+//        gkFrames.append(gkAnimatedAtlas.textureNamed("GK_center-jump"))
+//
+//        gkMoves = gkFrames
+//
+//        goalkeeper = SKSpriteNode(texture: gkFrames[0])
+//
+//        //settings for GK pic placement -- in the middle of gates -- relationship to Stadio
+//        goalkeeper.position = CGPoint(x: 0, y:  frame.size.height * 0.08)
+//        goalkeeper.anchorPoint = CGPoint(x: 0.5, y: 0)
+//        goalkeeper.size = CGSize(width: 100, height: 150)
+//
+//        stadioBackground.addChild(goalkeeper)
+//    }
+    
+    func GoalOrNot(location: CGPoint) {
+        if ((location.x < frame.size.width * -0.2 && location.y == frame.size.height * 0.2) || (location.x > frame.size.width * 0.2 && location.y == frame.size.height * 0.2)) {
+            scorePlayer -= 1
+        } else {
+            scorePlayer += 1
+        }
     }
-    
-    
-    func buildGkLeft() {
-        let gkAnimatedAtlas = SKTextureAtlas(named: "GkImagesJumpLeft")
-        var gkFrames: [SKTexture] = []
-        
-        gkFrames.append(gkAnimatedAtlas.textureNamed("GK_left-1"))
-        gkFrames.append(gkAnimatedAtlas.textureNamed("GK_left-2"))
-        gkFrames.append(gkAnimatedAtlas.textureNamed("GK_left-3"))
-        
-        gkMoves = gkFrames
-        
-        goalkeeper = SKSpriteNode(texture: gkFrames[0])
-        
-        //settings for GK pic placement -- in the middle of gates -- relationship to Stadio
-        goalkeeper.position = CGPoint(x: 0, y:  frame.size.height * 0.15)
-        goalkeeper.size = CGSize(width: 80, height: 100)
-        
-        stadioBackground.addChild(goalkeeper)
-    }
-    
-    func buildGkCenter() {
-        let gkAnimatedAtlas = SKTextureAtlas(named: "GkImagesJumpCenter")
-        var gkFrames: [SKTexture] = []
-        
-        gkFrames.append(gkAnimatedAtlas.textureNamed("GK_center"))
-        gkFrames.append(gkAnimatedAtlas.textureNamed("GK_center-jump"))
-        
-        gkMoves = gkFrames
-        
-        goalkeeper = SKSpriteNode(texture: gkFrames[0])
-        
-        //settings for GK pic placement -- in the middle of gates -- relationship to Stadio
-        goalkeeper.position = CGPoint(x: 0, y:  frame.size.height * 0.08)
-        goalkeeper.anchorPoint = CGPoint(x: 0.5, y: 0)
-        goalkeeper.size = CGSize(width: 100, height: 150)
-        
-        stadioBackground.addChild(goalkeeper)
-    }
-    
-    
     
     //function for touching
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         moveArrow() // func for an arrow moving
-        animateGk(status: gkAnimation!) // start animation for GK ready
+        animateGk() // start animation for GK ready
+        print("start")
     }
     
     // after touching ended following a shot
@@ -199,14 +258,16 @@ class GameScene: SKScene {
         let location = CGPoint(x: arrow.position.x, y: frame.size.height * 0.2)
         
         //this two lines for defining random direction to jump for GK
-        let randomState = Int.random(in: 1...3)
-        gkAnimation = GkState(rawValue: randomState)!
+//        let randomState = Int.random(in: 1...3)
+//        gkAnimation = GkState(rawValue: randomState)!
         
         moveBall(location: location)
         stopArrowAndGk()
+        GoalOrNot(location: ball.position)
+        print("shot")
     }
     
-    
+    //function to move ball in the direction of an arrow
     func moveBall(location: CGPoint) {
         
         let ballSpeed = frame.size.height // here should be an argument to make it faster than stronger kick
@@ -231,6 +292,7 @@ class GameScene: SKScene {
         
     }
     
+    //function to move arrow back and foroth to choose direction for a shot
     func moveArrow() {
         
         let arrowSpeed = frame.size.width // here should be an argument to make it faster with each new level
