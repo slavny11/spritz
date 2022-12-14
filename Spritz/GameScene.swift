@@ -24,7 +24,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     var scorePlayer: Int = 0 {
         didSet {
-            scoreLabel.text = "Score: \(scorePlayer)"
+            scoreLabel.text = "You \(scorePlayer) : \(scoreGoalkeeper) GK"
+        }
+    }
+    
+    var scoreGoalkeeper: Int = 0 {
+        didSet {
+            scoreLabel.text = "\(scorePlayer) : \(scoreGoalkeeper)"
         }
     }
     
@@ -55,12 +61,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         ball.physicsBody?.usesPreciseCollisionDetection = true
         
         scoreLabel = SKLabelNode(fontNamed: "PixeloidSans")
-        scoreLabel.text = "Score: 0"
+        scoreLabel.text = "You 0 : 0 GK"
         scoreLabel.fontSize = 30
         scoreLabel.zPosition = 1
         scoreLabel.fontColor = .black
         scoreLabel.horizontalAlignmentMode = .center
-//        scoreLabel.verticalAlignmentMode = .center
         scoreLabel.position.y = frame.size.height * 0.35
         
         //settings for arrow pic placement -- on a line -- relationship to Stadio
@@ -96,7 +101,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func CollisionBetween(ball: SKNode, goalkeeper: SKNode) {
         ball.removeFromParent()
         goalkeeper.removeFromParent()
-        stadioBackground.addChild(ball)
+//        stadioBackground.addChild(ball)
         print("Collision")
     }
     
@@ -239,7 +244,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func GoalOrNot(location: CGPoint) {
         if ((location.x < frame.size.width * -0.2 && location.y == frame.size.height * 0.2) || (location.x > frame.size.width * 0.2 && location.y == frame.size.height * 0.2)) {
-            scorePlayer -= 1
+            scoreGoalkeeper += 1
         } else {
             scorePlayer += 1
         }
