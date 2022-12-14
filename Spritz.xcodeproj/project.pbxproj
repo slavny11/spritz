@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		131C7E912949D9D700CE8383 /* GoalkeeperStateMachine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 131C7E902949D9D700CE8383 /* GoalkeeperStateMachine.swift */; };
 		13C483AA293F441300099B81 /* SpritzApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13C483A9293F441300099B81 /* SpritzApp.swift */; };
 		13C483AC293F441300099B81 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13C483AB293F441300099B81 /* ContentView.swift */; };
 		13C483AE293F441300099B81 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13C483AD293F441300099B81 /* Assets.xcassets */; };
@@ -21,6 +22,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		131C7E902949D9D700CE8383 /* GoalkeeperStateMachine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalkeeperStateMachine.swift; sourceTree = "<group>"; };
 		13C483A6293F441300099B81 /* Spritz.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Spritz.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13C483A9293F441300099B81 /* SpritzApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpritzApp.swift; sourceTree = "<group>"; };
 		13C483AB293F441300099B81 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -71,6 +73,7 @@
 				13C483AB293F441300099B81 /* ContentView.swift */,
 				13C483B9293F65CC00099B81 /* SpritzViewController.swift */,
 				13C483F12940A26A00099B81 /* GameScene.swift */,
+				131C7E902949D9D700CE8383 /* GoalkeeperStateMachine.swift */,
 				13C483B8293F652500099B81 /* StoryBoard */,
 				13C483C4293F737C00099B81 /* Assets */,
 				13C483AF293F441300099B81 /* Preview Content */,
@@ -189,6 +192,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				131C7E912949D9D700CE8383 /* GoalkeeperStateMachine.swift in Sources */,
 				13C483AC293F441300099B81 /* ContentView.swift in Sources */,
 				13C483BA293F65CC00099B81 /* SpritzViewController.swift in Sources */,
 				13C483F22940A26A00099B81 /* GameScene.swift in Sources */,
