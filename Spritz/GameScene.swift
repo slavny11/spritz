@@ -7,6 +7,7 @@
 
 import Foundation
 import SpriteKit
+import GameplayKit
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
     
@@ -15,34 +16,37 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     let stadioBackground = SKSpriteNode(imageNamed: "bg")
     
     //set a texture for GK anoimation
-    var goalkeeper = SKSpriteNode()
-    var gkMoves: [SKTexture] = []
+    private let goalkeeper: SKSpriteNode
+    private let goalkeeperStateMachine: GKStateMachine
     
     let arrow = SKSpriteNode(imageNamed: "arrow")
     
     var scoreLabel: SKLabelNode!
-    
     var scorePlayer: Int = 0 {
         didSet {
             scoreLabel.text = "You \(scorePlayer) : \(scoreGoalkeeper) GK"
         }
     }
-    
     var scoreGoalkeeper: Int = 0 {
         didSet {
-            scoreLabel.text = "\(scorePlayer) : \(scoreGoalkeeper)"
+            scoreLabel.text = "You \(scorePlayer) : \(scoreGoalkeeper) GK"
         }
     }
     
-    // create an enum with different GK states depending on case
-//    enum GkState: Int, CaseIterable {
-//        case ready = 0 // before shot and the next cases random after shot
-//        case center = 1
-//        case left = 2
-//        case right = 3
-//    }
+    override init(size: CGSize) {
+        goalkeeper = SKSpriteNode(imageNamed: "gk")
+        goalkeeper.name = "goalkeeper"
+        goalkeeperStateMachine = GKStateMachine(states: [
+            GoalkeeperReady(goalkeeperNode: goalkeeper),
+            GoalkeeperJumpCenter(goalkeeperNode: goalkeeper)
+        ])
+        super.init(size: size)
+    }
     
-//    var gkAnimation = GkState(rawValue: 1) // a variable which defines basic GK state
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     
     override func didMove(to view: SKView) {
         
@@ -51,6 +55,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         //settings for background pic placement -- put it in the center (notice that ancor of Stadion is in a screen center, but Ancor for Sprite in bottom left angle)
         stadioBackground.position = CGPoint(x: frame.size.width * 0.5, y: frame.size.height * 0.5)
         stadioBackground.anchorPoint = CGPoint(x: 0.5, y: 0.5)
+        stadioBackground.zPosition = -1
+        
+        addChild(goalkeeper)
+        
+        goalkeeperStateMachine.enter(GoalkeeperReady.self) // start animation for GK ready
         
         //settings for ball pic placement -- on the penalty point -- relationship to Stadio
         ball.position = CGPoint(x: 0, y:  frame.size.height * -0.2)
@@ -77,23 +86,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         stadioBackground.addChild(ball)
         stadioBackground.addChild(arrow)
         stadioBackground.addChild(scoreLabel)
-        buildGkReady()
-        
-        //need to understand which case for GK animation use
-//        switch GkState(rawValue: gkAnimation?.rawValue ?? 0) {
-//
-//        case .ready:
-//            buildGkReady()
-//        case .right:
-//            buildGkRight()
-//        case .center:
-//            buildGkCenter()
-//        case .left:
-//            buildGkLeft()
-//        case .none:
-//            buildGkReady()
-//        }
-        
+
         physicsWorld.contactDelegate = self
         physicsWorld.gravity = .zero
     }
@@ -116,132 +109,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
-    func animateGk() {
-        goalkeeper.run(SKAction.repeatForever(
-            SKAction.animate(with: gkMoves,
-                             timePerFrame: 0.3,
-                             resize: false,
-                             restore: true)),
-                       withKey: "gkReady")
-    }
-    // func with help to choose an animation for different GK states
-//    func animateGk(status: GkState) {
-//
-//        switch status {
-//
-//        case .ready:
-//            goalkeeper.run(SKAction.repeatForever(
-//                SKAction.animate(with: gkMoves,
-//                                 timePerFrame: 0.3,
-//                                 resize: false,
-//                                 restore: true)),
-//                           withKey: "gkReady")
-//
-//        case .center:
-//            goalkeeper.run(SKAction.repeatForever(
-//                SKAction.animate(with: gkMoves,
-//                                 timePerFrame: 0.3,
-//                                 resize: false,
-//                                 restore: true)),
-//                           withKey: "gkCenter")
-//
-//        case .left:
-//            goalkeeper.run(SKAction.repeatForever(
-//                SKAction.animate(with: gkMoves,
-//                                 timePerFrame: 0.3,
-//                                 resize: false,
-//                                 restore: true)),
-//                           withKey: "gkLeft")
-//
-//        case .right:
-//            goalkeeper.run(SKAction.repeatForever(
-//                SKAction.animate(with: gkMoves,
-//                                 timePerFrame: 0.3,
-//                                 resize: false,
-//                                 restore: true)),
-//                           withKey: "gkRight")
-//        }
-//    }
-    
-    // for building a GK in different states
-    func buildGkReady() {
-        let gkAnimatedAtlas = SKTextureAtlas(named: "GkImages")
-        var gkFrames: [SKTexture] = []
-        
-        gkFrames.append(gkAnimatedAtlas.textureNamed("gk-0"))
-        gkFrames.append(gkAnimatedAtlas.textureNamed("gk-1"))
-        
-        gkMoves = gkFrames
-        
-        goalkeeper = SKSpriteNode(texture: gkFrames[0])
-        
-        //settings for GK pic placement -- in the middle of gates -- relationship to Stadio
-        goalkeeper.position = CGPoint(x: 0, y:  frame.size.height * 0.08)
-        goalkeeper.anchorPoint = CGPoint(x: 0.5, y: 0)
-        goalkeeper.size = CGSize(width: 100, height: 120)
-        goalkeeper.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 50, height: 5))
-        goalkeeper.physicsBody?.isDynamic = false
-        goalkeeper.name = "goalkeeper"
-        
-        stadioBackground.addChild(goalkeeper)
-    }
-    
-    
-//    func buildGkRight() {
-//        let gkAnimatedAtlas = SKTextureAtlas(named: "GkImagesJumpRight")
-//        var gkFrames: [SKTexture] = []
-//
-//        gkFrames.append(gkAnimatedAtlas.textureNamed("GK_right-1"))
-//        gkFrames.append(gkAnimatedAtlas.textureNamed("GK_right-2"))
-//        gkFrames.append(gkAnimatedAtlas.textureNamed("GK_right-3"))
-//
-//        gkMoves = gkFrames
-//
-//        goalkeeper = SKSpriteNode(texture: gkFrames[0])
-//
-//        //settings for GK pic placement -- in the middle of gates -- relationship to Stadio
-//        goalkeeper.position = CGPoint(x: 0, y:  frame.size.height * 0.15)
-//        goalkeeper.size = CGSize(width: 100, height: 150)
-//
-//        stadioBackground.addChild(goalkeeper)
-//    }
-//    func buildGkLeft() {
-//        let gkAnimatedAtlas = SKTextureAtlas(named: "GkImagesJumpLeft")
-//        var gkFrames: [SKTexture] = []
-//
-//        gkFrames.append(gkAnimatedAtlas.textureNamed("GK_left-1"))
-//        gkFrames.append(gkAnimatedAtlas.textureNamed("GK_left-2"))
-//        gkFrames.append(gkAnimatedAtlas.textureNamed("GK_left-3"))
-//
-//        gkMoves = gkFrames
-//
-//        goalkeeper = SKSpriteNode(texture: gkFrames[0])
-//
-//        //settings for GK pic placement -- in the middle of gates -- relationship to Stadio
-//        goalkeeper.position = CGPoint(x: 0, y:  frame.size.height * 0.15)
-//        goalkeeper.size = CGSize(width: 80, height: 100)
-//
-//        stadioBackground.addChild(goalkeeper)
-//    }
-//    func buildGkCenter() {
-//        let gkAnimatedAtlas = SKTextureAtlas(named: "GkImagesJumpCenter")
-//        var gkFrames: [SKTexture] = []
-//
-//        gkFrames.append(gkAnimatedAtlas.textureNamed("GK_center"))
-//        gkFrames.append(gkAnimatedAtlas.textureNamed("GK_center-jump"))
-//
-//        gkMoves = gkFrames
-//
-//        goalkeeper = SKSpriteNode(texture: gkFrames[0])
-//
-//        //settings for GK pic placement -- in the middle of gates -- relationship to Stadio
-//        goalkeeper.position = CGPoint(x: 0, y:  frame.size.height * 0.08)
-//        goalkeeper.anchorPoint = CGPoint(x: 0.5, y: 0)
-//        goalkeeper.size = CGSize(width: 100, height: 150)
-//
-//        stadioBackground.addChild(goalkeeper)
-//    }
-    
     func GoalOrNot(location: CGPoint) {
         if ((location.x < frame.size.width * -0.2 && location.y == frame.size.height * 0.2) || (location.x > frame.size.width * 0.2 && location.y == frame.size.height * 0.2)) {
             scoreGoalkeeper += 1
@@ -253,7 +120,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     //function for touching
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         moveArrow() // func for an arrow moving
-        animateGk() // start animation for GK ready
+        goalkeeperStateMachine.enter(GoalkeeperReady.self) // start animation for GK ready
         print("start")
     }
     
@@ -261,12 +128,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         
         let location = CGPoint(x: arrow.position.x, y: frame.size.height * 0.2)
+        goalkeeperStateMachine.enter(GoalkeeperJumpCenter.self) // start animation for GK center
         
         //this two lines for defining random direction to jump for GK
 //        let randomState = Int.random(in: 1...3)
 //        gkAnimation = GkState(rawValue: randomState)!
-        
-        moveBall(location: location)
+        self.moveBall(location: location)
         stopArrowAndGk()
         GoalOrNot(location: ball.position)
         print("shot")
@@ -315,14 +182,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     //to stop an animation after touching ended
     func stopArrowAndGk() {
         arrow.removeAction(forKey: "arrow-moving")
-        goalkeeper.removeAction(forKey: "gkReady")
+//        goalkeeper.removeAction(forKey: "gkReady")
     }
     
     //to reset screen after shot completed (DIDN'T USE NOW)
     func reset() {
         arrow.position = CGPoint(x: -0.5 * frame.size.width + arrow.size.width, y: frame.size.height * -0.04)
         ball.position = CGPoint(x: 0, y:  frame.size.height * -0.2)
-        goalkeeper.position = CGPoint(x: 0, y:  frame.size.height * 0.15)
+//        goalkeeper.position = CGPoint(x: 0, y:  frame.size.height * 0.15)
     }
     
 }
