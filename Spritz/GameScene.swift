@@ -77,12 +77,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             switch gameStatus {
             case .shot:
                 print("start")
-                missedScreen.removeFromParent()
-                goalScreen.removeFromParent()
-                saveScreen.removeFromParent()
-                addBall()
-                addArrow()
-                addChild(goalkeeper)
+                if scorePlayer == 5 {
+                    addChild(winScreen)
+                } else if scoreGoalkeeper == 5 {
+                    addChild(loseScreen)
+                } else {
+                    missedScreen.removeFromParent()
+                    goalScreen.removeFromParent()
+                    saveScreen.removeFromParent()
+                    addBall()
+                    addArrow()
+                    addChild(goalkeeper)
+                }
                 
             case .goal:
                 print("goal")
