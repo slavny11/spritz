@@ -18,8 +18,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     private let goalkeeper: SKSpriteNode
     private let goalkeeperStateMachine: GKStateMachine
     
+    private let gates: SKSpriteNode
+    private let missedLeft: SKSpriteNode
+    private let missedRight: SKSpriteNode
+    
     let arrow = SKSpriteNode(imageNamed: "arrow")
     
+    // scorelabel for a player and a comp
     var scoreLabel: SKLabelNode!
     var scorePlayer: Int = 0 {
         didSet {
@@ -32,6 +37,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
+    //initializations of GK states and Nodes
     override init(size: CGSize) {
         goalkeeper = SKSpriteNode(imageNamed: "gk")
         goalkeeper.name = "goalkeeper"
@@ -41,6 +47,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             GoalkeeperJumpLeft(goalkeeperNode: goalkeeper),
             GoalkeeperJumpRight(goalkeeperNode: goalkeeper)
         ])
+        
+//        let halfGaitWidth = size.width * 0.5
+//        let gatesSize = CGSize(width: halfGaitWidth, height: 1)
+        gates = SKSpriteNode(color: .red, size: CGSize(width: size.width * 0.5, height: 1))
+        missedLeft = SKSpriteNode(color: .black, size: CGSize(width: size.width * 0.2, height: 1))
+        missedRight = SKSpriteNode(color: .blue, size: CGSize(width: size.width * 0.2, height: 1))
         super.init(size: size)
     }
     
@@ -48,9 +60,40 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         fatalError("init(coder:) has not been implemented")
     }
     
+    enum roundStages {
+        case shot
+        case goal
+        case missed
+    }
+    
+    var gameStatus: roundStages = .shot
+    
     override func didMove(to view: SKView) {
         
         backgroundColor = .green
+        
+        gates.name = "Gates"
+        gates.position = CGPoint(x: size.width * 0.5, y: 510)
+        gates.physicsBody = SKPhysicsBody(rectangleOf: gates.size)
+        gates.physicsBody?.isDynamic = false
+        gates.physicsBody!.contactTestBitMask = gates.physicsBody!.collisionBitMask
+        gates.physicsBody?.usesPreciseCollisionDetection = true
+        
+        missedLeft.name = "MissedLeft"
+        missedLeft.position = CGPoint(x: 0, y: 550)
+        missedLeft.anchorPoint = CGPoint(x: 0, y: 0)
+        missedLeft.physicsBody = SKPhysicsBody(rectangleOf: missedLeft.size)
+        missedLeft.physicsBody?.isDynamic = false
+        missedLeft.physicsBody!.contactTestBitMask = missedLeft.physicsBody!.collisionBitMask
+        missedLeft.physicsBody?.usesPreciseCollisionDetection = true
+        
+        missedRight.name = "MissedRight"
+        missedRight.position = CGPoint(x: size.width - missedRight.size.width, y: 550)
+        missedRight.anchorPoint = CGPoint(x: 0, y: 0)
+        missedRight.physicsBody = SKPhysicsBody(rectangleOf: missedRight.size)
+        missedRight.physicsBody?.isDynamic = false
+        missedRight.physicsBody!.contactTestBitMask = missedRight.physicsBody!.collisionBitMask
+        missedRight.physicsBody?.usesPreciseCollisionDetection = true
         
         //settings for background pic placement -- put it in the center (notice that ancor of Stadion is in a screen center, but Ancor for Sprite in bottom left angle)
         stadioBackground.position = CGPoint(x: frame.size.width * 0.5, y: frame.size.height * 0.5)
@@ -82,44 +125,88 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         stadioBackground.addChild(ball)
         stadioBackground.addChild(arrow)
         stadioBackground.addChild(scoreLabel)
+        addChild(gates)
+        addChild(missedLeft)
+        addChild(missedRight)
         addChild(goalkeeper)
         
+        //adding GK first state
         goalkeeperStateMachine.enter(GoalkeeperReady.self) // start animation for GK ready
         
         physicsWorld.contactDelegate = self
         physicsWorld.gravity = .zero
     }
     
-    func CollisionBetween(ball: SKNode, goalkeeper: SKNode) {
+    //what should happen in case of GK catch the ball
+    func CollisionBetweenSave(ball: SKNode, goalkeeper: SKNode) {
         ball.removeFromParent()
         goalkeeper.removeFromParent()
-        print("Collision")
+        print("Save")
+        scoreGoalkeeper += 1
+        gameStatus = .missed
     }
     
+    func CollisionBetweenGoal(ball: SKNode, gates: SKNode) {
+        ball.removeFromParent()
+        missedLeft.removeFromParent()
+        missedRight.removeFromParent()
+        print("Goal")
+        scorePlayer += 1
+        gameStatus = .goal
+    }
+    
+    func CollisionBetweenMissed(ball: SKNode, miss: SKNode) {
+        missedLeft.removeFromParent()
+        missedRight.removeFromParent()
+        print("Missed")
+        scoreGoalkeeper += 1
+        gameStatus = .missed
+    }
+    
+//    //func to understand whether is goal or not NEED TO DO
+//    func Missed() {
+//        if ((ball.position.x < -100 && ball.position.y == frame.size.height * 0.2) || (ball.position.x > frame.size.width * 0.2 && ball.position.y == frame.size.height * 0.2)) {
+//            scoreGoalkeeper += 1
+//            gameStatus = .missed
+//        }
+//    }
+    
+    //collision detection
     func didBegin(_ contact: SKPhysicsContact) {
         guard let nodeA = contact.bodyA.node else { return }
         guard let nodeB = contact.bodyB.node else { return }
         
         if nodeA.name == "ball" && nodeB.name == "goalkeeper"{
-            CollisionBetween(ball: contact.bodyA.node!, goalkeeper: contact.bodyB.node!)
+            CollisionBetweenSave(ball: contact.bodyA.node!, goalkeeper: contact.bodyB.node!)
         } else if nodeA.name == "goalkeeper" && nodeB.name == "ball"{
-            CollisionBetween(ball: contact.bodyB.node!, goalkeeper: contact.bodyA.node!)
+            CollisionBetweenSave(ball: contact.bodyB.node!, goalkeeper: contact.bodyA.node!)
+        } else if nodeA.name == "Gates" && nodeB.name == "ball"{
+            CollisionBetweenGoal(ball: contact.bodyA.node!, gates: contact.bodyB.node!)
+        } else if nodeA.name == "ball" && nodeB.name == "Gates"{
+            CollisionBetweenGoal(ball: contact.bodyB.node!, gates: contact.bodyA.node!)
+        } else if (nodeA.name == "MissedLeft" || nodeA.name == "MissedRight") && nodeB.name == "ball"{
+            CollisionBetweenMissed(ball: contact.bodyB.node!, miss: contact.bodyA.node!)
+        } else if (nodeB.name == "MissedLeft" || nodeB.name == "MissedRight") && nodeA.name == "ball"{
+            CollisionBetweenMissed(ball: contact.bodyA.node!, miss: contact.bodyB.node!)
         }
     }
-    
-    //func to understand whether is goal or not NEED TO DO
-    func GoalOrNot(location: CGPoint) {
-        if ((location.x < frame.size.width * -0.2 && location.y == frame.size.height * 0.2) || (location.x > frame.size.width * 0.2 && location.y == frame.size.height * 0.2)) {
-            scoreGoalkeeper += 1
-        } else {
-            scorePlayer += 1
-        }
-    }
+
     
     //function for touching
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        moveArrow() // func for an arrow moving
-        print("start")
+        
+        switch gameStatus {
+        case .shot:
+            moveArrow() // func for an arrow moving
+            print("start")
+        case .goal:
+            print("goal")
+            gameStatus = .shot
+        case .missed:
+            print("missed")
+            gameStatus = .shot
+        }
+        
     }
     
     // after touching ended following a shot
@@ -138,7 +225,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
         self.moveBall(location: location)
         stopArrowAndGk()
-        GoalOrNot(location: ball.position)
         print("shot")
     }
     
@@ -185,14 +271,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     //to stop an animation after touching ended
     func stopArrowAndGk() {
         arrow.removeAction(forKey: "arrow-moving")
-//        goalkeeper.removeAction(forKey: "gkReady")
     }
     
     //to reset screen after shot completed (DIDN'T USE NOW)
     func reset() {
         arrow.position = CGPoint(x: -0.5 * frame.size.width + arrow.size.width, y: frame.size.height * -0.04)
         ball.position = CGPoint(x: 0, y:  frame.size.height * -0.2)
-//        goalkeeper.position = CGPoint(x: 0, y:  frame.size.height * 0.15)
     }
     
 }
