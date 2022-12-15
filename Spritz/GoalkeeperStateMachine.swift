@@ -33,7 +33,7 @@ class GoalkeeperReady: GoalkeeperState {
         self.goalkeeperNode?.position = CGPoint(x: 200, y:  500)
         self.goalkeeperNode?.anchorPoint = CGPoint(x: 0.5, y: 0)
         self.goalkeeperNode?.size = CGSize(width: 100, height: 120)
-        self.goalkeeperNode?.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 50, height: 5))
+        self.goalkeeperNode?.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 80, height: 5))
         self.goalkeeperNode?.physicsBody?.isDynamic = false
         self.goalkeeperNode?.name = "goalkeeper"
         self.goalkeeperNode?.removeAction(forKey: goalkeeperAnimationKey)
@@ -71,7 +71,7 @@ class GoalkeeperJumpRight: GoalkeeperState {
     
     override func didEnter(from previousState: GKState?) {
         self.goalkeeperNode?.position = CGPoint(x: 225, y:  500)
-        self.goalkeeperNode?.size = CGSize(width: 130, height: 120)
+        self.goalkeeperNode?.size = CGSize(width: 130, height: 140)
         self.goalkeeperNode?.removeAction(forKey: goalkeeperAnimationKey)
         self.goalkeeperNode?.run(action, withKey: goalkeeperAnimationKey)
         self.goalkeeperNode?.run(moving())
@@ -91,7 +91,7 @@ class GoalkeeperJumpLeft: GoalkeeperState {
     
     override func didEnter(from previousState: GKState?) {
         self.goalkeeperNode?.position = CGPoint(x: 175, y:  500)
-        self.goalkeeperNode?.size = CGSize(width: 130, height: 120)
+        self.goalkeeperNode?.size = CGSize(width: 130, height: 140)
         self.goalkeeperNode?.removeAction(forKey: goalkeeperAnimationKey)
         self.goalkeeperNode?.run(action, withKey: goalkeeperAnimationKey)
         self.goalkeeperNode?.run(moving())
