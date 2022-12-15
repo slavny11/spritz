@@ -20,6 +20,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     let winScreen = SKSpriteNode(imageNamed: "win")
     let loseScreen = SKSpriteNode(imageNamed: "lose")
     
+    let backgroundMusic = SKAudioNode(fileNamed: "bgMusic.mp3")
+    
     //set a texture for GK anoimation
     private let goalkeeper: SKSpriteNode
     private let goalkeeperStateMachine: GKStateMachine
@@ -180,12 +182,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         addChild(missedLeft)
         addChild(missedRight)
         addChild(goalkeeper)
+        addChild(backgroundMusic)
         
         //adding GK first state
         goalkeeperStateMachine.enter(GoalkeeperReady.self) // start animation for GK ready
         
         physicsWorld.contactDelegate = self
         physicsWorld.gravity = .zero
+        
+//        backgroundMusic.run(SKAction.play())
     }
     
     //what should happen in case of GK catch the ball
