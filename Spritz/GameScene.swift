@@ -5,7 +5,6 @@
 //  Created by Viacheslav on 07/12/22.
 //
 
-import Foundation
 import SpriteKit
 import GameplayKit
 
@@ -49,7 +48,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         fatalError("init(coder:) has not been implemented")
     }
     
-    
     override func didMove(to view: SKView) {
         
         backgroundColor = .green
@@ -58,10 +56,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         stadioBackground.position = CGPoint(x: frame.size.width * 0.5, y: frame.size.height * 0.5)
         stadioBackground.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         stadioBackground.zPosition = -1
-        
-        addChild(goalkeeper)
-        
-        goalkeeperStateMachine.enter(GoalkeeperReady.self) // start animation for GK ready
         
         //settings for ball pic placement -- on the penalty point -- relationship to Stadio
         ball.position = CGPoint(x: 0, y:  frame.size.height * -0.2)
@@ -88,7 +82,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         stadioBackground.addChild(ball)
         stadioBackground.addChild(arrow)
         stadioBackground.addChild(scoreLabel)
-
+        addChild(goalkeeper)
+        
+        goalkeeperStateMachine.enter(GoalkeeperReady.self) // start animation for GK ready
+        
         physicsWorld.contactDelegate = self
         physicsWorld.gravity = .zero
     }
@@ -96,7 +93,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func CollisionBetween(ball: SKNode, goalkeeper: SKNode) {
         ball.removeFromParent()
         goalkeeper.removeFromParent()
-//        stadioBackground.addChild(ball)
         print("Collision")
     }
     
@@ -111,6 +107,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
+    //func to understand whether is goal or not NEED TO DO
     func GoalOrNot(location: CGPoint) {
         if ((location.x < frame.size.width * -0.2 && location.y == frame.size.height * 0.2) || (location.x > frame.size.width * 0.2 && location.y == frame.size.height * 0.2)) {
             scoreGoalkeeper += 1
@@ -122,27 +119,23 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     //function for touching
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         moveArrow() // func for an arrow moving
-//        goalkeeperStateMachine.enter(GoalkeeperReady.self) // start animation for GK ready
         print("start")
     }
     
     // after touching ended following a shot
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         
-        let goalkeeperJump = Int.random(in: 0...2)
-        
-//        let randomSide = Int.random(in: 0...2)
+        let randomSide = Int.random(in: 0...2)
         let location = CGPoint(x: arrow.position.x, y: frame.size.height * 0.2)
         
-//        if randomSide == 0 {
-//
-//        } else if randomSide == 1 {
-        goalkeeperStateMachine.enter(GoalkeeperJumpLeft.self) // start animation for GK center
-        
-        
-        //this two lines for defining random direction to jump for GK
-//        let randomState = Int.random(in: 1...3)
-//        gkAnimation = GkState(rawValue: randomState)!
+        if randomSide == 0 {
+            goalkeeperStateMachine.enter(GoalkeeperJumpCenter.self) // start animation for GK center
+        } else if randomSide == 1 {
+            goalkeeperStateMachine.enter(GoalkeeperJumpRight.self) // start animation for GK center
+        } else if randomSide == 2 {
+            goalkeeperStateMachine.enter(GoalkeeperJumpLeft.self) // start animation for GK center
+        }
+
         self.moveBall(location: location)
         stopArrowAndGk()
         GoalOrNot(location: ball.position)

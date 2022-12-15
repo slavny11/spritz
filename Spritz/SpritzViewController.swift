@@ -5,9 +5,6 @@
 //  Created by Viacheslav on 06/12/22.
 //
 
-import Foundation
-//import UIKit
-//import SwiftUI
 import SpriteKit
 
 class SpritzViewController: UIViewController {
