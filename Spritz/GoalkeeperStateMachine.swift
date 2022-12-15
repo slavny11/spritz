@@ -51,10 +51,45 @@ class GoalkeeperJumpCenter: GoalkeeperState {
         return true
     }
 
-    let textures: Array<SKTexture> = (0..<2).map({ return "gk-center-\($0)"}).map(SKTexture.init)
-    lazy var action = { SKAction.repeatForever(SKAction.animate(with: textures, timePerFrame: 0.3, resize: false, restore: true)) } ()
+    let textures: Array<SKTexture> = (0...2).map({ return "gk-center-\($0)"}).map(SKTexture.init)
+    lazy var action = { SKAction.animate(with: textures, timePerFrame: 0.3, resize: false, restore: true) } ()
     
     override func didEnter(from previousState: GKState?) {
+        self.goalkeeperNode?.size = CGSize(width: 100, height: 120)
+        self.goalkeeperNode?.removeAction(forKey: goalkeeperAnimationKey)
+        self.goalkeeperNode?.run(action, withKey: goalkeeperAnimationKey)
+    }
+}
+
+class GoalkeeperJumpRight: GoalkeeperState {
+    
+    override func isValidNextState(_ stateClass: AnyClass) -> Bool {
+        
+        return true
+    }
+
+    let textures: Array<SKTexture> = (1...3).map({ return "gk-right-\($0)"}).map(SKTexture.init)
+    lazy var action = { SKAction.animate(with: textures, timePerFrame: 0.3, resize: false, restore: true) } ()
+    
+    override func didEnter(from previousState: GKState?) {
+        self.goalkeeperNode?.size = CGSize(width: 100, height: 140)
+        self.goalkeeperNode?.removeAction(forKey: goalkeeperAnimationKey)
+        self.goalkeeperNode?.run(action, withKey: goalkeeperAnimationKey)
+    }
+}
+
+class GoalkeeperJumpLeft: GoalkeeperState {
+    
+    override func isValidNextState(_ stateClass: AnyClass) -> Bool {
+        
+        return true
+    }
+
+    let textures: Array<SKTexture> = (0...2).map({ return "gk-left-\($0)"}).map(SKTexture.init)
+    lazy var action = { SKAction.animate(with: textures, timePerFrame: 0.3, resize: true, restore: true) } ()
+    
+    override func didEnter(from previousState: GKState?) {
+        self.goalkeeperNode?.size = CGSize(width: 200, height: 140)
         self.goalkeeperNode?.removeAction(forKey: goalkeeperAnimationKey)
         self.goalkeeperNode?.run(action, withKey: goalkeeperAnimationKey)
     }

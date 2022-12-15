@@ -6,8 +6,8 @@
 //
 
 import Foundation
-import UIKit
-import SwiftUI
+//import UIKit
+//import SwiftUI
 import SpriteKit
 
 class SpritzViewController: UIViewController {
@@ -19,26 +19,25 @@ class SpritzViewController: UIViewController {
         
         if let view = self.view as! SKView? {
             let scene = GameScene(size: view.bounds.size) // fullscreen size
-                    scene.scaleMode = .resizeFill
-                    
-                    view.presentScene(scene)
-                    
-                    view.ignoresSiblingOrder = true
-                    
-                    view.showsFPS = true //huinya
-                    view.showsNodeCount = true // hyinya
-                }
+            scene.scaleMode = .resizeFill
+            
+            view.presentScene(scene)
+            
+            view.ignoresSiblingOrder = true
+            
+            view.showsFPS = true //huinya
+            view.showsNodeCount = true // hyinya
+        }
     }
-    
     
     // not possible to totate
     override var shouldAutorotate: Bool {
-            return false
-        }
+        return false
+    }
     
     //hide Status bar
     override var prefersStatusBarHidden: Bool {
-            return true
-        }
+        return true
+    }
     
 }

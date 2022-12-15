@@ -38,7 +38,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         goalkeeper.name = "goalkeeper"
         goalkeeperStateMachine = GKStateMachine(states: [
             GoalkeeperReady(goalkeeperNode: goalkeeper),
-            GoalkeeperJumpCenter(goalkeeperNode: goalkeeper)
+            GoalkeeperJumpCenter(goalkeeperNode: goalkeeper),
+            GoalkeeperJumpLeft(goalkeeperNode: goalkeeper),
+            GoalkeeperJumpRight(goalkeeperNode: goalkeeper)
         ])
         super.init(size: size)
     }
@@ -120,15 +122,23 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     //function for touching
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         moveArrow() // func for an arrow moving
-        goalkeeperStateMachine.enter(GoalkeeperReady.self) // start animation for GK ready
+//        goalkeeperStateMachine.enter(GoalkeeperReady.self) // start animation for GK ready
         print("start")
     }
     
     // after touching ended following a shot
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         
+        let goalkeeperJump = Int.random(in: 0...2)
+        
+//        let randomSide = Int.random(in: 0...2)
         let location = CGPoint(x: arrow.position.x, y: frame.size.height * 0.2)
-        goalkeeperStateMachine.enter(GoalkeeperJumpCenter.self) // start animation for GK center
+        
+//        if randomSide == 0 {
+//
+//        } else if randomSide == 1 {
+        goalkeeperStateMachine.enter(GoalkeeperJumpLeft.self) // start animation for GK center
+        
         
         //this two lines for defining random direction to jump for GK
 //        let randomState = Int.random(in: 1...3)
